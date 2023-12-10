@@ -22,6 +22,9 @@ public class User {
 
     private String name;
 
+    // Read this blog for enabling @CreatedDate and @LastModifiedDate
+    // https://bootify.io/mongodb/created-and-last-modified-date-in-spring-data-mongodb.html
+
     @CreatedDate
     private LocalDateTime createdAt;
 

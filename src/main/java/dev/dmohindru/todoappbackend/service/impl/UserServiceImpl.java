@@ -1,5 +1,6 @@
 package dev.dmohindru.todoappbackend.service.impl;
 
+
 import dev.dmohindru.todoappbackend.dao.TodoDao;
 import dev.dmohindru.todoappbackend.dao.TodoTitleDao;
 import dev.dmohindru.todoappbackend.dao.UserDao;
@@ -46,5 +47,6 @@ public class UserServiceImpl implements UserService {
         foundUser.setTodoTitleList(userTodoTitleList);
 
         return foundUser;
+
     }
 }

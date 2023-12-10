@@ -22,12 +22,12 @@ public class UserController {
 
     @GetMapping()
     public ResponseEntity<UserDTO> getUserTodos(@RequestHeader Map<String, String> headers) {
-        String username = headers.get(USER_NAME);
+        String username = headers.get(USER_NAME.getKeyName());
         if (username == null) {
             throw new MissingHeaderException("Username header missing");
         }
 
-        String name = headers.get(NAME);
+        String name = headers.get(NAME.getKeyName());
         if (name == null) {
             throw new MissingHeaderException("Name header missing");
         }
