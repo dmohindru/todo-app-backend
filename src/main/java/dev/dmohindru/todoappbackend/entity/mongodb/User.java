@@ -1,12 +1,12 @@
-package dev.dmohindru.todoappbackend.entity;
+package dev.dmohindru.todoappbackend.entity.mongodb;
 
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,6 +30,6 @@ public class User {
 
     // reading from this blog
     // https://spring.io/blog/2021/11/29/spring-data-mongodb-relation-modelling
-    @DBRef
+    @DocumentReference
     List<TodoTitle> todoTitleList;
 }

@@ -1,10 +1,11 @@
-package dev.dmohindru.todoappbackend.entity;
+package dev.dmohindru.todoappbackend.entity.mongodb;
 
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import java.time.LocalDateTime;
 
@@ -23,7 +24,9 @@ public class Todo {
 
     private Boolean deleted;
 
-    private String todoTitleId;
+
+    @DocumentReference(lazy = true)
+    private TodoTitle todoTitleParent;
 
     @CreatedDate
     private LocalDateTime createdAt;
