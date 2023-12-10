@@ -3,9 +3,11 @@ package dev.dmohindru.todoappbackend.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -25,4 +27,7 @@ public class TodoTitleDTO {
 
     @JsonProperty("updatedAt")
     private LocalDateTime updatedAt;
+
+    @JsonPropertyOrder("todoList")
+    private List<TodoDTO> todoList;
 }

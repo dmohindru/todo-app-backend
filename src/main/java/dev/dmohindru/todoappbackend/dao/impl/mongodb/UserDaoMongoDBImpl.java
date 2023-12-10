@@ -6,7 +6,7 @@ import dev.dmohindru.todoappbackend.repository.mongodb.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-@Component("mongodb")
+@Component("user-mongodb")
 @RequiredArgsConstructor
 public class UserDaoMongoDBImpl implements UserDao {
 
@@ -14,6 +14,11 @@ public class UserDaoMongoDBImpl implements UserDao {
 
     @Override
     public UserDTO getUserByUsername(String username) {
+        return null;
+    }
+
+    @Override
+    public UserDTO saveNewUser(UserDTO userDTO) {
         return null;
     }
 }

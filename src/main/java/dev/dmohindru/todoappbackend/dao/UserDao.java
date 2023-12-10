@@ -4,4 +4,6 @@ import dev.dmohindru.todoappbackend.dto.UserDTO;
 
 public interface UserDao {
     UserDTO getUserByUsername(String username);
+
+    UserDTO saveNewUser(UserDTO userDTO);
 }

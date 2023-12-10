@@ -1,18 +1,19 @@
-package dev.dmohindru.todoappbackend.dao.impl.mongodb;
+package dev.dmohindru.todoappbackend.service.impl;
 
 import dev.dmohindru.todoappbackend.dao.TodoTitleDao;
 import dev.dmohindru.todoappbackend.dto.TodoTitleDTO;
-import dev.dmohindru.todoappbackend.repository.mongodb.TodoTitleRepository;
+import dev.dmohindru.todoappbackend.service.TodoTitleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component("todo-title-mongodb")
+@Service
 @RequiredArgsConstructor
-public class TodoTitleDaoMongoDBImpl implements TodoTitleDao {
+public class TodoTitleServiceImpl implements TodoTitleService {
 
-    private final TodoTitleRepository todoTitleRepository;
+    private final TodoTitleDao todoTitleDao;
+
     @Override
     public List<TodoTitleDTO> getAllTodoTitleByUsername(String username) {
         return null;
@@ -24,7 +25,7 @@ public class TodoTitleDaoMongoDBImpl implements TodoTitleDao {
     }
 
     @Override
-    public TodoTitleDTO getTodoTitleById(String todoTitleId) {
+    public TodoTitleDTO getTodoTitleById(String id) {
         return null;
     }
 }
