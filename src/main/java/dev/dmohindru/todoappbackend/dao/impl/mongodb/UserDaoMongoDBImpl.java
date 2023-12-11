@@ -8,6 +8,8 @@ import dev.dmohindru.todoappbackend.repository.mongodb.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component("user-mongodb")
 @RequiredArgsConstructor
 public class UserDaoMongoDBImpl implements UserDao {
@@ -24,6 +26,7 @@ public class UserDaoMongoDBImpl implements UserDao {
     @Override
     public UserDTO saveNewUser(UserDTO userDTO) {
         User user = userMapper.getUserEntity(userDTO);
+        user.setExternalId(UUID.randomUUID());
         User savedUser = userRepository.save(user);
         return userMapper.getUserDTO(savedUser);
     }

@@ -5,11 +5,13 @@ import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Document("User")
@@ -18,12 +20,11 @@ public class User {
     @Id
     private String _id;
 
+    private UUID externalId;
+
     private String username;
 
     private String name;
-
-    // Read this blog for enabling @CreatedDate and @LastModifiedDate
-    // https://bootify.io/mongodb/created-and-last-modified-date-in-spring-data-mongodb.html
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -31,8 +32,9 @@ public class User {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    // reading from this blog
-    // https://spring.io/blog/2021/11/29/spring-data-mongodb-relation-modelling
     @DocumentReference
     List<TodoTitle> todoTitleList;
+
+    @Version
+    private Integer version;
 }

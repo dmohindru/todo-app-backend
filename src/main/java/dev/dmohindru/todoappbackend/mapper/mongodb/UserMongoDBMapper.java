@@ -10,9 +10,9 @@ import org.mapstruct.factory.Mappers;
 public interface UserMongoDBMapper {
     UserMongoDBMapper INSTANCE = Mappers.getMapper(UserMongoDBMapper.class);
 
-    @Mapping(source = "_id", target = "id")
+    @Mapping(source = "externalId", target = "id")
     UserDTO getUserDTO(User user);
 
-    @Mapping(source = "id", target = "_id")
+    @Mapping(source = "id", target = "externalId")
     User getUserEntity(UserDTO userDTO);
 }
