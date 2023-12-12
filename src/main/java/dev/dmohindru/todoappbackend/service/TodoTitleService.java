@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface TodoTitleService {
     List<TodoTitleDTO> getAllTodoTitleByUsername(UserDTO userDTO);
 
-    TodoTitleDTO updateTodoTitle(TodoTitleDTO todoTitleDTO);
+    TodoTitleDTO updateTodoTitle(UserDTO userDTO, TodoTitleDTO todoTitleDTO);
 
     TodoTitleDTO getTodoTitleById(UUID id);
 

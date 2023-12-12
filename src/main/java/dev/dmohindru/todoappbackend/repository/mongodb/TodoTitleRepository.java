@@ -6,8 +6,11 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public interface TodoTitleRepository extends MongoRepository<TodoTitle, String> {
     List<TodoTitle> findTodoTitleByUser(User user);
+
+    TodoTitle findTodoTitleByExternalId(UUID externalId);
 }

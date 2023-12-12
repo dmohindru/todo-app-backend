@@ -4,6 +4,7 @@ import dev.dmohindru.todoappbackend.dao.TodoTitleDao;
 import dev.dmohindru.todoappbackend.dao.UserDao;
 import dev.dmohindru.todoappbackend.dto.TodoTitleDTO;
 import dev.dmohindru.todoappbackend.dto.UserDTO;
+import dev.dmohindru.todoappbackend.exception.MissingIdException;
 import dev.dmohindru.todoappbackend.service.TodoTitleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,12 @@ public class TodoTitleServiceImpl implements TodoTitleService {
     }
 
     @Override
-    public TodoTitleDTO updateTodoTitle(TodoTitleDTO todoTitleDTO) {
-        return null;
+    public TodoTitleDTO updateTodoTitle(UserDTO userDTO, TodoTitleDTO todoTitleDTO) {
+        if (todoTitleDTO.getId() == null) {
+            throw new MissingIdException("Id filed missing for TodoTitle patch request");
+        }
+
+        return todoTitleDao.updateTodoTitle(userDTO, todoTitleDTO);
     }
 
     @Override
