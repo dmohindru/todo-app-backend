@@ -36,19 +36,6 @@ public class UserServiceImpl implements UserService {
             return userDao.saveNewUser(userDTO);
         }
 
-        List<TodoTitleDTO> todoTitleList = foundUser.getTodoTitleList();
-        todoTitleList.forEach(TodoTitleDTO::getTodoList);
-
-        //List<TodoTitleDTO> userTodoTitleList = todoTitleDao.getAllTodoTitleByUsername(foundUser.getUsername());
-
-//        userTodoTitleList
-//                .forEach(title -> {
-//                    List<TodoDTO> todoList = todoDao.getAllTodoByTitleId(title.getId());
-//                    title.setTodoList(todoList);
-//                });
-//
-//        foundUser.setTodoTitleList(userTodoTitleList);
-
         return foundUser;
 
     }

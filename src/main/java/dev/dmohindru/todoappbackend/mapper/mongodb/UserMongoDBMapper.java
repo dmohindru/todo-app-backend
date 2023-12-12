@@ -6,7 +6,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(uses = {
+        TodoTitleMongoDBMapper.class
+})
 public interface UserMongoDBMapper {
     UserMongoDBMapper INSTANCE = Mappers.getMapper(UserMongoDBMapper.class);
 
