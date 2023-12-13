@@ -11,9 +11,11 @@ public interface TodoMongoDBMapper {
     TodoMongoDBMapper INSTANCE = Mappers.getMapper(TodoMongoDBMapper.class);
 
     @Mapping(source = "externalId", target = "id")
+    @Mapping(source = "todoTitle", target = "title")
     TodoDTO getTodoDTO(Todo todo);
 
     @Mapping(source = "id", target = "externalId")
+    @Mapping(source = "title", target = "todoTitle")
     Todo getTodoEntity(TodoDTO todoDTO);
 
 }
