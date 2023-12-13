@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import static dev.dmohindru.todoappbackend.controller.v1.ControllerUtils.getUserDTO;
 
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/todotitle")
@@ -35,5 +36,19 @@ public class TodoTitleController {
         UserDTO userDTO = getUserDTO(headers);
         TodoTitleDTO updaedTodoTitleDTO = todoTitleService.updateTodoTitle(userDTO, todoTitleDTO);
         return new ResponseEntity<>(updaedTodoTitleDTO, HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("/{titleId}")
+    public ResponseEntity<TodoTitleDTO> deleteTodoTitle(@PathVariable("titleId") UUID id,
+                                                        @RequestHeader Map<String, String> headers) {
+        UserDTO userDTO = getUserDTO(headers);
+        TodoTitleDTO deleteTodoTitle = todoTitleService.deleteTodoTitle(userDTO, id);
+        return new ResponseEntity<>(deleteTodoTitle, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/{titleId}")
+    public ResponseEntity<TodoTitleDTO> getTodoTitle(@PathVariable("titleId") UUID id) {
+        TodoTitleDTO todoTitleDTO = todoTitleService.getTodoTitleById(id);
+        return new ResponseEntity<>(todoTitleDTO, HttpStatus.OK);
     }
 }

@@ -34,11 +34,16 @@ public class TodoTitleServiceImpl implements TodoTitleService {
 
     @Override
     public TodoTitleDTO getTodoTitleById(UUID id) {
-        return null;
+        return todoTitleDao.getTodoTitleById(id);
     }
 
     @Override
     public TodoTitleDTO saveTodoTitle(UserDTO userDTO, TodoTitleDTO todoTitleDTO) {
         return todoTitleDao.saveTodoTitle(userDTO, todoTitleDTO);
+    }
+
+    @Override
+    public TodoTitleDTO deleteTodoTitle(UserDTO userDTO, UUID todoTitleId) {
+        return todoTitleDao.deleteTodoTitle(userDTO, todoTitleId);
     }
 }

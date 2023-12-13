@@ -14,4 +14,6 @@ public interface TodoTitleService {
     TodoTitleDTO getTodoTitleById(UUID id);
 
     TodoTitleDTO saveTodoTitle(UserDTO userDTO, TodoTitleDTO todoTitleDTO);
+
+    TodoTitleDTO deleteTodoTitle(UserDTO userDTO, UUID todoTitleId);
 }

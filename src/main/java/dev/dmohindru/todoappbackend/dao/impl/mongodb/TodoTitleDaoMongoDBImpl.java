@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component("todo-title-mongodb")
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class TodoTitleDaoMongoDBImpl implements TodoTitleDao {
     private final TodoTitleMongoDBMapper todoTitleMongoDBMapper = TodoTitleMongoDBMapper.INSTANCE;
     @Override
     public List<TodoTitleDTO> getAllTodoTitleByUsername(String username) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -56,8 +57,13 @@ public class TodoTitleDaoMongoDBImpl implements TodoTitleDao {
     }
 
     @Override
-    public TodoTitleDTO getTodoTitleById(String todoTitleId) {
-        return null;
+    public TodoTitleDTO getTodoTitleById(UUID todoTitleId) {
+        TodoTitle todoTitle = todoTitleRepository.findTodoTitleByExternalId(todoTitleId);
+        if (todoTitle == null) {
+            throw new MissingRecordException(String.format("Todo Title with id [%s] not found", todoTitleId));
+        }
+
+        return todoTitleMongoDBMapper.getTodoTitleDTO(todoTitle);
     }
 
     @Override
@@ -77,10 +83,33 @@ public class TodoTitleDaoMongoDBImpl implements TodoTitleDao {
         return todoTitleMongoDBMapper.getTodoTitleDTO(savedTodoTitle);
     }
 
+    @Override
+    public TodoTitleDTO deleteTodoTitle(UserDTO userDTO, UUID titleExternalId) {
+        User user = getUser(userDTO);
+        TodoTitle foundTodoTitle = todoTitleRepository.findTodoTitleByExternalId(titleExternalId);
+
+        if (foundTodoTitle == null) {
+            throw new MissingRecordException(String.format("Todo Title with id [%s] not found", titleExternalId));
+        }
+        checkForUserEquality(user, foundTodoTitle);
+
+        List<TodoTitle> trimmedTodoList = user.getTodoTitleList()
+                .stream()
+                .filter(todoTitle -> !todoTitle.getExternalId().equals(titleExternalId))
+                .toList();
+
+        user.setTodoTitleList(trimmedTodoList);
+        userRepository.save(user);
+
+        foundTodoTitle.setDeleted(true);
+        TodoTitle deletedTodoTitle = todoTitleRepository.save(foundTodoTitle);
+        return todoTitleMongoDBMapper.getTodoTitleDTO(deletedTodoTitle);
+    }
+
     private void checkForUserEquality(User user, TodoTitle todoTitle) {
         if (!todoTitle.getUser().getUsername().equalsIgnoreCase(user.getUsername())) {
             throw new UnauthorizedException(
-                    String.format("User id in request headers not match with recorded user id against todoTitle with id [%s]", todoTitle.getExternalId()));
+                    String.format("User details in request headers not matched with recorded user against todoTitle with id [%s]", todoTitle.getExternalId()));
         }
     }
 
