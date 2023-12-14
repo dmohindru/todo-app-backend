@@ -14,4 +14,6 @@ public interface TodoRepository extends MongoRepository<Todo, String> {
     List<Todo> findAllByTodoTitleParent(TodoTitle parent);
 
     Optional<Todo> findByExternalId(UUID externalId);
+
+    Optional<Todo> findByExternalIdAndDeletedNot(UUID externalId, Boolean deleted);
 }

@@ -14,4 +14,8 @@ public interface TodoDao {
     TodoDTO getTodoById(String id);
 
     TodoDTO createTodo(UserDTO userDTO, UUID todoTitleId, TodoDTO todoDTO);
+
+    TodoDTO deleteTodo(UserDTO userDTO, UUID todoTitleId, UUID todoId);
+
+    TodoDTO getTodoById(UUID id);
 }

@@ -22,8 +22,8 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public TodoDTO updateTodo(UserDTO userDTO, UUID titleId, TodoDTO todoDTO) {
-        return null;
+    public TodoDTO updateTodo(UserDTO userDTO, UUID todoListId, TodoDTO todoDTO) {
+        return todoDao.updateTodo(userDTO, todoListId, todoDTO);
     }
 
     @Override
@@ -34,5 +34,15 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public TodoDTO createTodo(UserDTO userDTO, UUID todoTitleId, TodoDTO todoDTO) {
         return todoDao.createTodo(userDTO, todoTitleId, todoDTO);
+    }
+
+    @Override
+    public TodoDTO deleteTodo(UserDTO userDTO, UUID todoTitleId, UUID todoId) {
+        return todoDao.deleteTodo(userDTO, todoTitleId, todoId);
+    }
+
+    @Override
+    public TodoDTO getTodoById(UUID id) {
+        return todoDao.getTodoById(id);
     }
 }

@@ -18,6 +18,7 @@ import static dev.dmohindru.todoappbackend.dao.impl.mongodb.DaoUtils.checkForUse
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component("todo-mongodb")
 @RequiredArgsConstructor
@@ -92,6 +93,45 @@ public class TodoDaoMongoDBImpl implements TodoDao {
         todoTitleRepository.save(todoTitle);
 
         return todoMongoDBMapper.getTodoDTO(savedTodo);
+    }
+
+    @Override
+    public TodoDTO deleteTodo(UserDTO userDTO, UUID todoTitleId, UUID todoId) {
+
+        TodoTitle todoTitleList = getTodoTitleList(todoTitleId);
+        User user = getUser(userDTO);
+
+        checkForUserEquality(user, todoTitleList);
+
+        Todo todo = todoRepository
+                .findByExternalIdAndDeletedNot(todoId, true)
+                .orElseThrow(() -> new MissingRecordException(
+                        String.format("Todo with id [%s] not found", todoId))
+                );
+
+        List<Todo> filteredList = todoTitleList
+                .getTodoList()
+                .stream()
+                .filter(t -> !t.getExternalId().equals(todoId))
+                .toList();
+
+        todoTitleList.setTodoList(filteredList);
+        todoTitleRepository.save(todoTitleList);
+
+        todo.setDeleted(true);
+        todo.setTodoTitleParent(null);
+        Todo deletedTodo = todoRepository.save(todo);
+
+        return todoMongoDBMapper.getTodoDTO(deletedTodo);
+    }
+
+    @Override
+    public TodoDTO getTodoById(UUID id) {
+        Todo todo = todoRepository.findByExternalId(id)
+                .orElseThrow(
+                        () -> new MissingRecordException(
+                                String.format("Todo with id [%s] not found", id)));
+        return todoMongoDBMapper.getTodoDTO(todo);
     }
 
     private User getUser(UserDTO userDTO) {

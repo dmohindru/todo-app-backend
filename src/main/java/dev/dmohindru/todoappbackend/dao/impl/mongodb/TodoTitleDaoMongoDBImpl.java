@@ -102,6 +102,7 @@ public class TodoTitleDaoMongoDBImpl implements TodoTitleDao {
         userRepository.save(user);
 
         foundTodoTitle.setDeleted(true);
+        foundTodoTitle.setUser(null);
         TodoTitle deletedTodoTitle = todoTitleRepository.save(foundTodoTitle);
         return todoTitleMongoDBMapper.getTodoTitleDTO(deletedTodoTitle);
     }

@@ -34,6 +34,26 @@ public class TodoController {
     public ResponseEntity<TodoDTO> updateTodo(@PathVariable("todoTitleId") UUID todoTitleId,
                                               @RequestBody TodoDTO todoDTO,
                                               @RequestHeader Map<String, String> headers) {
-        return null;
+
+        UserDTO userDTO = getUserDTO(headers);
+
+        TodoDTO updatedTodo = todoService.updateTodo(userDTO, todoTitleId, todoDTO);
+        return new ResponseEntity<>(updatedTodo, HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("/{todoTitleId}/{todoId}")
+    public ResponseEntity<TodoDTO> deleteTodo(@PathVariable("todoTitleId") UUID todoTitleId,
+                                              @PathVariable("todoId") UUID todoId,
+                                              @RequestHeader Map<String, String> headers) {
+        UserDTO userDTO = getUserDTO(headers);
+        TodoDTO deleteTodo = todoService.deleteTodo(userDTO, todoTitleId, todoId);
+
+        return new ResponseEntity<>(deleteTodo, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/{todoId}")
+    public ResponseEntity<TodoDTO> getTodoById(@PathVariable("todoId") UUID id) {
+        TodoDTO todoDTO = todoService.getTodoById(id);
+        return new ResponseEntity<>(todoDTO, HttpStatus.OK);
     }
 }
