@@ -5,3 +5,8 @@ spring:
       auto-index-creation: true
 #      username:
 #      password:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8180/realms/todoapp/protocol/openid-connect/certs
