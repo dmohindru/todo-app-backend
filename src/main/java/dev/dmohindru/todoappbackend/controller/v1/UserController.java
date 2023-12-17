@@ -2,6 +2,7 @@ package dev.dmohindru.todoappbackend.controller.v1;
 
 import dev.dmohindru.todoappbackend.dto.UserDTO;
 import dev.dmohindru.todoappbackend.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +20,9 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping()
-    public ResponseEntity<UserDTO> getUserTodos(@RequestHeader Map<String, String> headers) {
+    public ResponseEntity<UserDTO> getUserTodos(HttpServletRequest request) {
 
-        UserDTO userDTO = getUserDTO(headers);
+        UserDTO userDTO = getUserDTO(request);
 
         UserDTO userTodoList = userService.getUserTodoList(userDTO);
 

@@ -3,6 +3,7 @@ package dev.dmohindru.todoappbackend.controller.v1;
 import dev.dmohindru.todoappbackend.dto.TodoTitleDTO;
 import dev.dmohindru.todoappbackend.dto.UserDTO;
 import dev.dmohindru.todoappbackend.service.TodoTitleService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +21,9 @@ public class TodoTitleController {
 
     @PostMapping
     public ResponseEntity<TodoTitleDTO> createTodoTitle(@RequestBody TodoTitleDTO todoTitleDTO,
-                                                       @RequestHeader Map<String, String> headers) {
+                                                        HttpServletRequest request) {
 
-        UserDTO userDTO = getUserDTO(headers);
+        UserDTO userDTO = getUserDTO(request);
         TodoTitleDTO savedTodoTitleDTO = todoTitleService.saveTodoTitle(userDTO, todoTitleDTO);
 
         return new ResponseEntity<>(savedTodoTitleDTO, HttpStatus.CREATED);
@@ -31,17 +32,17 @@ public class TodoTitleController {
 
     @PatchMapping
     public ResponseEntity<TodoTitleDTO> patchTodoTitle(@RequestBody TodoTitleDTO todoTitleDTO,
-                                                       @RequestHeader Map<String, String> headers) {
+                                                       HttpServletRequest request) {
 
-        UserDTO userDTO = getUserDTO(headers);
+        UserDTO userDTO = getUserDTO(request);
         TodoTitleDTO updaedTodoTitleDTO = todoTitleService.updateTodoTitle(userDTO, todoTitleDTO);
         return new ResponseEntity<>(updaedTodoTitleDTO, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{titleId}")
     public ResponseEntity<TodoTitleDTO> deleteTodoTitle(@PathVariable("titleId") UUID id,
-                                                        @RequestHeader Map<String, String> headers) {
-        UserDTO userDTO = getUserDTO(headers);
+                                                        HttpServletRequest request) {
+        UserDTO userDTO = getUserDTO(request);
         TodoTitleDTO deleteTodoTitle = todoTitleService.deleteTodoTitle(userDTO, id);
         return new ResponseEntity<>(deleteTodoTitle, HttpStatus.ACCEPTED);
     }

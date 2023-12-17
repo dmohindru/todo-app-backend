@@ -1,12 +1,15 @@
 package dev.dmohindru.todoappbackend.config;
 
+import dev.dmohindru.todoappbackend.filter.JwtKeycloakUsernameHeaderFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 
@@ -31,7 +34,7 @@ public class SecurityConfig {
                 // Cors configuration
                 .cors(corsConfigurer -> corsConfigurer.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
-                    config.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
+                    config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
                     config.setAllowedMethods(Collections.singletonList("*"));
                     config.setAllowCredentials(true);
                     config.setAllowedHeaders(Collections.singletonList("*"));
@@ -44,13 +47,15 @@ public class SecurityConfig {
                 // Authorized Http Requests Configuration
                 .authorizeHttpRequests(httpReqConfigurer ->
                         httpReqConfigurer.requestMatchers(
-                                        "/users/**",
-                                        "/todoTitle/**",
-                                        "/todo/**").authenticated())
+                                        "/api/v1/user/**",
+                                        "/api/v1/todotitle/**",
+                                        "/api/v1/todo/**").authenticated())
                 // OAuth2 Resource server customizer
                 .oauth2ResourceServer(oAuthCustomizer ->
                         oAuthCustomizer.jwt(jwtConfigurer ->
-                                jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter)));
+                                jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter)))
+                // Add custom filter here
+                .addFilterAfter(new JwtKeycloakUsernameHeaderFilter(), BearerTokenAuthenticationFilter.class);
 
 
 
