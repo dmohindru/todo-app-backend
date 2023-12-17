@@ -29,12 +29,12 @@ public class ControllerUtils {
     }
 
     public static UserDTO getUserDTO(HttpServletRequest request) {
-        String username = request.getHeader(USER_NAME.getKeyName());
+        String username = (String) request.getAttribute(USER_NAME.getKeyName());
         if (username == null) {
             throw new MissingHeaderException("Username header missing");
         }
 
-        String name = request.getHeader(NAME.getKeyName());
+        String name = (String) request.getAttribute(NAME.getKeyName());
         if (name == null) {
             throw new MissingHeaderException("Name header missing");
         }

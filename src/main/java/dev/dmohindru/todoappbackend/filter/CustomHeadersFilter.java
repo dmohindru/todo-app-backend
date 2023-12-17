@@ -5,25 +5,30 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class JwtKeycloakUsernameHeaderFilter extends OncePerRequestFilter {
+/**
+ *  - This class acts as example of how to add custom filter to Spring security filter chains
+ *  - How to add custom headers to HttpServlet request using Decorator pattern
+ */
+@Slf4j
+public class CustomHeadersFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorization = request.getHeader("Authorization");
         String jwtToken = authorization.substring("Bearer ".length());
+        log.info("JWT Token received: {}", jwtToken);
 
 
         MutableHttpServletRequest mutableHttpServletRequest = new MutableHttpServletRequest(request);
 
-        mutableHttpServletRequest.addHeader("username", "dmohindru@gmail.com");
-        mutableHttpServletRequest.addHeader("name", "Dhruv Mohindru");
-
+        mutableHttpServletRequest.addHeader("appname", "todo-app");
 
         filterChain.doFilter(mutableHttpServletRequest, response);
 

@@ -1,19 +1,15 @@
 package dev.dmohindru.todoappbackend.config;
 
-import dev.dmohindru.todoappbackend.filter.JwtKeycloakUsernameHeaderFilter;
+import dev.dmohindru.todoappbackend.filter.CustomHeadersFilter;
 import dev.dmohindru.todoappbackend.security.CustomJwtAuthenticationConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 
@@ -70,10 +66,9 @@ public class SecurityConfig {
                 // OAuth2 Resource server customizer
                 .oauth2ResourceServer(oAuthCustomizer ->
                         oAuthCustomizer.jwt(jwtConfigurer ->
-                                //jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter)))
                                 jwtConfigurer.jwtAuthenticationConverter( customJwtAuthenticationConverter)))
                 // Add custom filter here
-                .addFilterAfter(new JwtKeycloakUsernameHeaderFilter(), BearerTokenAuthenticationFilter.class);
+                .addFilterAfter(new CustomHeadersFilter(), BearerTokenAuthenticationFilter.class);
 
 
 
