@@ -1,11 +1,15 @@
 package dev.dmohindru.todoappbackend.config;
 
 import dev.dmohindru.todoappbackend.filter.JwtKeycloakUsernameHeaderFilter;
+import dev.dmohindru.todoappbackend.security.CustomJwtAuthenticationConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
@@ -22,10 +26,23 @@ import java.util.Collections;
 public class SecurityConfig {
 
     @Bean
-    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        // Customize the JwtAuthenticationConverter if needed
+        return new JwtAuthenticationConverter();
+    }
+
+    @Bean
+    public CustomJwtAuthenticationConverter customJwtAuthenticationConverter(JwtAuthenticationConverter jwtAuthenticationConverter) {
+        return new CustomJwtAuthenticationConverter(jwtAuthenticationConverter);
+    }
+
+    @Bean
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity httpSecurity,
+                                                   CustomJwtAuthenticationConverter customJwtAuthenticationConverter) throws Exception {
 
         // 1: Jwt Authentication Convertor
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+
         // Create convertor that decoded jwt and puts username and name in appropriate http headers
 
         httpSecurity
@@ -53,7 +70,8 @@ public class SecurityConfig {
                 // OAuth2 Resource server customizer
                 .oauth2ResourceServer(oAuthCustomizer ->
                         oAuthCustomizer.jwt(jwtConfigurer ->
-                                jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter)))
+                                //jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter)))
+                                jwtConfigurer.jwtAuthenticationConverter( customJwtAuthenticationConverter)))
                 // Add custom filter here
                 .addFilterAfter(new JwtKeycloakUsernameHeaderFilter(), BearerTokenAuthenticationFilter.class);
 

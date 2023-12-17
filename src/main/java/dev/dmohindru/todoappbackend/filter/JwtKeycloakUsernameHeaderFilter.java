@@ -16,6 +16,8 @@ public class JwtKeycloakUsernameHeaderFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorization = request.getHeader("Authorization");
+        String jwtToken = authorization.substring("Bearer ".length());
+
 
         MutableHttpServletRequest mutableHttpServletRequest = new MutableHttpServletRequest(request);
 
