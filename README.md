@@ -12,5 +12,7 @@ Start keycloak server
 ./kc.sh start-dev --http-port 8180
 ```
 
-Config url
+All Config url
 http://localhost:8180/realms/todoapp/.well-known/openid-configuration
+
+[Add custom attributes to keycloak access token](https://medium.com/@lakshminp/adding-user-attributes-to-jwt-token-in-keycloak-f3981b7df310)
